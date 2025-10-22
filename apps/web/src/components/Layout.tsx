@@ -1,7 +1,6 @@
 // apps/web/src/components/Layout.tsx
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,7 +10,9 @@ export default function Layout({ children }: LayoutProps) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    sessionStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('userEmail');
+    window.dispatchEvent(new Event('authChange'));
     navigate('/login');
   };
 
@@ -32,6 +33,7 @@ export default function Layout({ children }: LayoutProps) {
           <nav style={{ display: 'flex', gap: '1.5rem' }}>
             <a href="/queue" style={{ color: '#fff', textDecoration: 'none' }}>Queue</a>
             <a href="/tickets" style={{ color: '#fff', textDecoration: 'none' }}>Tickets</a>
+            <a href="/scan" style={{ color: '#e62b1e', textDecoration: 'none', fontWeight: 600 }}>📱 Scan</a>
             <a href="/scan-monitor" style={{ color: '#fff', textDecoration: 'none' }}>Scan Monitor</a>
             <a href="/reports" style={{ color: '#fff', textDecoration: 'none' }}>Reports</a>
           </nav>

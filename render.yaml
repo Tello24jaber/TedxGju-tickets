@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: tedxgju-api
+    env: node
+    rootDir: apps/api
+    region: oregon
+    plan: free
+    buildCommand: npm ci --no-audit --no-fund && npm run build
+    startCommand: node dist/server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20
+      # Supply these via the Render dashboard or as synced env groups
+      - key: APP_URL
+        sync: false # e.g., https://YOUR-NETLIFY-SITE.netlify.app
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: GOOGLE_SPREADSHEET_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: EMAIL_PROVIDER
+        sync: false
+      - key: EMAIL_SENDER_ADDRESS
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
+        sync: false
+      - key: PUBLIC_TICKET_BASE_URL
+        sync: false # e.g., https://tedxgju-api.onrender.com

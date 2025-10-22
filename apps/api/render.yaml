@@ -4,14 +4,16 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    # Build only the API service (root directory should be apps/api on Render)
+    buildCommand: npm ci --no-audit --no-fund && npm run build
+    startCommand: node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3001
+      # Pin Node to LTS (avoids slow/unsupported native builds on Node 22)
+      - key: NODE_VERSION
+        value: 20
       # Add these in Render dashboard (don't commit secrets):
       # - SUPABASE_URL
       # - SUPABASE_SERVICE_ROLE_KEY
@@ -20,5 +22,8 @@ services:
       # - EMAIL_PROVIDER
       # - EMAIL_SENDER_ADDRESS
       # - GMAIL_APP_PASSWORD
+      # - GMAIL_CLIENT_ID
+      # - GMAIL_CLIENT_SECRET
+      # - GMAIL_REFRESH_TOKEN
       # - PUBLIC_TICKET_BASE_URL (set to: https://tedxgju-api.onrender.com)
       # - APP_URL (set to: https://your-netlify-app.netlify.app)

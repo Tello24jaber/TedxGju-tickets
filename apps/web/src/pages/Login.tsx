@@ -1,31 +1,73 @@
 // apps/web/src/pages/Login.tsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Button from '../components/Button';
 
 export default function Login() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
 
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: window.location.origin + '/queue'
-        }
-      });
+    // Hardcoded credentials check
+    const ADMIN_EMAIL = 'tedxgjutickets@gmail.com';
+    const ADMIN_PASSWORD = 'Tickets321';
 
-      if (error) throw error;
-      setMessage('Check your email for the login link!');
-    } catch (error: any) {
-      setMessage(error.message || 'Login failed');
-    } finally {
+    if (email.toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      try {
+        // Sign in with Supabase (creates session for API calls)
+        const { error } = await supabase.auth.signInWithPassword({
+          email: ADMIN_EMAIL,
+          password: ADMIN_PASSWORD
+        });
+
+        if (error) {
+          // If user doesn't exist, create them
+          const redirectUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5173/queue'
+            : window.location.origin + '/queue';
+          
+          const { error: signUpError } = await supabase.auth.signUp({
+            email: ADMIN_EMAIL,
+            password: ADMIN_PASSWORD,
+            options: {
+              emailRedirectTo: redirectUrl
+            }
+          });
+
+          if (signUpError) throw signUpError;
+
+          // Try signing in again
+          const { error: retryError } = await supabase.auth.signInWithPassword({
+            email: ADMIN_EMAIL,
+            password: ADMIN_PASSWORD
+          });
+
+          if (retryError) throw retryError;
+        }
+
+        // Create a simple session for UI state
+        sessionStorage.setItem('isAuthenticated', 'true');
+        sessionStorage.setItem('userEmail', email);
+        
+        // Trigger a custom event to notify App.tsx
+        window.dispatchEvent(new Event('authChange'));
+        
+        // Navigate to dashboard
+        navigate('/queue');
+      } catch (error: any) {
+        setMessage(error.message || 'Login failed');
+        setLoading(false);
+      }
+    } else {
+      setMessage('Invalid email or password');
       setLoading(false);
     }
   };
@@ -68,7 +110,27 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="your@email.com"
+              placeholder="Tedxgjutickets@gmail.com"
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '14px'
+              }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter password"
               style={{
                 width: '100%',
                 padding: '0.75rem',
@@ -80,7 +142,7 @@ export default function Login() {
           </div>
 
           <Button type="submit" disabled={loading} style={{ width: '100%' }}>
-            {loading ? 'Sending...' : 'Send Magic Link'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </Button>
         </form>
 

@@ -1,0 +1,90 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-workspace
+*.sublime-project
+
+# IDE extensions
+.vscode-test
+.vscode-run
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Vite specific
+.vite/
+
+# Production build artifacts
+dist/
+build/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Node version manager
+.nvmrc
+.node-version
+
+# Lock files (optional, but usually excluded)
+# Uncomment if you want to exclude all lock files
+# package-lock.json
+# yarn.lock
+
+# IDE run configurations
+.run/
+
+# macOS
+.AppleDouble
+.AppleDB
+._*
+
+# Windows
+*.exe
+*.dll
+*.lnk
+
+# Generated files
+*.generated.*
+*.auto.*

@@ -5,6 +5,8 @@ services:
     rootDir: apps/api
     region: oregon
     plan: free
+    autoDeploy: true
+    pullRequestPreviewsEnabled: false
     buildCommand: npm ci --no-audit --no-fund && npm run build
     startCommand: node dist/server.js
     healthCheckPath: /health
@@ -37,4 +39,4 @@ services:
       - key: GMAIL_REFRESH_TOKEN
         sync: false
       - key: PUBLIC_TICKET_BASE_URL
-        sync: false # e.g., https://tedxgju-api.onrender.com
+        value: https://tedxgju-tickets.onrender.com # Render service URL

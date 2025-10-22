@@ -4,9 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-
-[security.headers]
-  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY,VITE_API_URL"
+  SECRETS_SCAN_ENABLED = false
 
 [[redirects]]
   from = "/*"

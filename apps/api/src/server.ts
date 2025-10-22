@@ -53,6 +53,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Compatibility health check for platforms expecting /healthz
+app.get('/healthz', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Routes
 app.use('/api/admin', adminRoutes);
 app.use('/api/tickets', ticketRoutes);

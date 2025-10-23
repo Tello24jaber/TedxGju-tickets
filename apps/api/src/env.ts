@@ -1,12 +1,12 @@
 // apps/api/src/env.ts
 // Load environment variables FIRST before anything else
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config({ path: resolve(__dirname, '../../../.env') });
+// In serverless environments (Netlify Functions), env vars are injected by the platform
+// Only load .env file in local development
+if (process.env.NODE_ENV !== 'production' && !process.env.NETLIFY) {
+  dotenv.config();
+}
 
 // Validate critical environment variables
 const requiredEnvVars = [

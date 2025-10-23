@@ -51,11 +51,26 @@ export default function Scan() {
     }
   };
 
-  const stopScanner = () => {
+  const stopScanner = async () => {
     if (scanner) {
-      scanner.stop();
+      try {
+        await scanner.stop();
+        await scanner.clear();
+      } catch (e) {
+        console.error('Error stopping scanner:', e);
+      }
       setScanning(false);
+      setScanner(null);
     }
+  };
+
+  const handleScanNext = async () => {
+    setResult(null);
+    setManualToken('');
+    // Restart scanner after a brief delay
+    setTimeout(() => {
+      startScanner();
+    }, 100);
   };
 
   const handleRedeem = async (token: string) => {
@@ -209,7 +224,7 @@ export default function Scan() {
               </p>
             )}
             <button
-              onClick={() => setResult(null)}
+              onClick={handleScanNext}
               style={{
                 marginTop: '2rem',
                 background: '#fff',

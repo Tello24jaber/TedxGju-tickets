@@ -44,10 +44,17 @@ export default function Queue() {
 
   return (
     <Layout>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '24px', fontWeight: 600 }}>Approval Queue</h2>
-          <Button onClick={handleSync} disabled={syncing}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+        <div style={{ 
+          display: 'flex', 
+          flexWrap: 'wrap',
+          gap: '1rem',
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          marginBottom: '2rem' 
+        }}>
+          <h2 style={{ fontSize: 'clamp(20px, 4vw, 24px)', fontWeight: 600, margin: 0 }}>Approval Queue</h2>
+          <Button onClick={handleSync} disabled={syncing} style={{ whiteSpace: 'nowrap' }}>
             {syncing ? 'Syncing...' : 'Sync Google Sheets'}
           </Button>
         </div>
@@ -75,35 +82,35 @@ export default function Queue() {
             No pending requests
           </p>
         ) : (
-          <div style={{ overflow: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff' }}>
+          <div className="table-container" style={{ overflow: 'auto', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', minWidth: '800px' }}>
               <thead>
                 <tr style={{ background: '#f5f5f5', borderBottom: '2px solid #ddd' }}>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600 }}>Name</th>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600 }}>Email</th>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600 }}>Event</th>
-                  <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600 }}>Qty</th>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600 }}>Seat</th>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600 }}>Submitted</th>
-                  <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600 }}>Actions</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Name</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Email</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Event</th>
+                  <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600, fontSize: '14px' }}>Qty</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Seat</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Submitted</th>
+                  <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600, fontSize: '14px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {requests.map((req) => (
                   <tr key={req.id} style={{ borderBottom: '1px solid #eee' }}>
-                    <td style={{ padding: '1rem' }}>{req.name}</td>
-                    <td style={{ padding: '1rem' }}>{req.email}</td>
-                    <td style={{ padding: '1rem' }}>{req.event_name}</td>
-                    <td style={{ padding: '1rem', textAlign: 'center' }}>{req.qty}</td>
-                    <td style={{ padding: '1rem' }}>{req.seat_tier || '-'}</td>
-                    <td style={{ padding: '1rem' }}>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.name}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '14px', wordBreak: 'break-word' }}>{req.email}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.event_name}</td>
+                    <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontSize: '14px' }}>{req.qty}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.seat_tier || '-'}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '13px', whiteSpace: 'nowrap' }}>
                       {new Date(req.created_at).toLocaleDateString()}
                     </td>
-                    <td style={{ padding: '1rem', textAlign: 'center' }}>
+                    <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
                       <Button
                         onClick={() => navigate(`/requests/${req.id}`)}
                         variant="secondary"
-                        style={{ padding: '0.5rem 1rem', fontSize: '13px' }}
+                        style={{ padding: '0.5rem 1rem', fontSize: '13px', whiteSpace: 'nowrap' }}
                       >
                         Review
                       </Button>

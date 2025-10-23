@@ -71,38 +71,42 @@ export default function Reports() {
 
   return (
     <Layout>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+        <h2 style={{ fontSize: 'clamp(20px, 4vw, 24px)', fontWeight: 600, marginBottom: '2rem' }}>
           Reports
         </h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem'
-        }}>
+        <div 
+          className="responsive-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1rem'
+          }}
+        >
           {statCards.map((card) => (
             <div
               key={card.title}
               style={{
                 background: '#fff',
-                padding: '2rem',
+                padding: '1.5rem',
                 borderRadius: '8px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 borderLeft: `4px solid ${card.color}`
               }}
             >
               <h3 style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 fontWeight: 600,
                 color: '#666',
                 marginBottom: '0.5rem',
-                textTransform: 'uppercase'
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
               }}>
                 {card.title}
               </h3>
               <p style={{
-                fontSize: '36px',
+                fontSize: 'clamp(28px, 6vw, 36px)',
                 fontWeight: 600,
                 color: card.color
               }}>
@@ -112,8 +116,8 @@ export default function Reports() {
           ))}
         </div>
 
-        <div style={{ marginTop: '3rem', background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '1rem' }}>
+        <div style={{ marginTop: '2rem', background: '#fff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h3 style={{ fontSize: 'clamp(16px, 3vw, 18px)', fontWeight: 600, marginBottom: '1rem' }}>
             Redemption Rate
           </h3>
           {stats.total_tickets > 0 ? (

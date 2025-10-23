@@ -78,11 +78,12 @@ export default function Login() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f5f5f5'
+      background: '#f5f5f5',
+      padding: '1rem'
     }}>
       <div style={{
         background: '#fff',
-        padding: '3rem',
+        padding: '2rem',
         borderRadius: '8px',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
         width: '100%',
@@ -91,12 +92,12 @@ export default function Login() {
         <h1 style={{
           textAlign: 'center',
           marginBottom: '0.5rem',
-          fontSize: '32px',
+          fontSize: 'clamp(24px, 5vw, 32px)',
           fontWeight: 600
         }}>
           TEDx<span style={{ color: '#e62b1e' }}>GJU</span>
         </h1>
-        <p style={{ textAlign: 'center', color: '#666', marginBottom: '2rem' }}>
+        <p style={{ textAlign: 'center', color: '#666', marginBottom: '2rem', fontSize: '14px' }}>
           Staff Login
         </p>
 

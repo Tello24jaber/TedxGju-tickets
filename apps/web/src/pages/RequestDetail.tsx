@@ -71,7 +71,7 @@ export default function RequestDetail() {
 
   return (
     <Layout>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1rem' }}>
         <div style={{ marginBottom: '2rem' }}>
           <button
             onClick={() => navigate('/queue')}
@@ -80,87 +80,88 @@ export default function RequestDetail() {
               border: 'none',
               color: '#e62b1e',
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '14px',
+              padding: '0.5rem 0'
             }}
           >
             ← Back to Queue
           </button>
         </div>
 
-        <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '2rem' }}>
+        <h2 style={{ fontSize: 'clamp(20px, 4vw, 24px)', fontWeight: 600, marginBottom: '2rem' }}>
           Request Details
         </h2>
 
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', marginBottom: '2rem' }}>
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
           <div style={{ display: 'grid', gap: '1.5rem' }}>
             <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                 Name
               </label>
-              <p>{request.name}</p>
+              <p style={{ fontSize: '14px' }}>{request.name}</p>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                 Email
               </label>
-              <p>{request.email}</p>
+              <p style={{ fontSize: '14px', wordBreak: 'break-word' }}>{request.email}</p>
             </div>
 
             {request.phone && (
               <div>
-                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                   Phone
                 </label>
-                <p>{request.phone}</p>
+                <p style={{ fontSize: '14px' }}>{request.phone}</p>
               </div>
             )}
 
             <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                 Event
               </label>
-              <p>{request.event_name}</p>
+              <p style={{ fontSize: '14px' }}>{request.event_name}</p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem' }}>
               <div>
-                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                   Quantity
                 </label>
-                <p>{request.qty}</p>
+                <p style={{ fontSize: '14px' }}>{request.qty}</p>
               </div>
 
               {request.seat_tier && (
                 <div>
-                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                     Seat Tier
                   </label>
-                  <p>{request.seat_tier}</p>
+                  <p style={{ fontSize: '14px' }}>{request.seat_tier}</p>
                 </div>
               )}
             </div>
 
             {request.proof_url && (
               <div>
-                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                   Proof of Payment
                 </label>
-                <a href={request.proof_url} target="_blank" rel="noopener noreferrer">
+                <a href={request.proof_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '14px' }}>
                   View Document
                 </a>
               </div>
             )}
 
             <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                 Submitted
               </label>
-              <p>{new Date(request.created_at).toLocaleString()}</p>
+              <p style={{ fontSize: '14px' }}>{new Date(request.created_at).toLocaleString()}</p>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                 Notes
               </label>
               <textarea
@@ -173,7 +174,8 @@ export default function RequestDetail() {
                   border: '1px solid #ddd',
                   borderRadius: '4px',
                   fontSize: '14px',
-                  fontFamily: 'inherit'
+                  fontFamily: 'inherit',
+                  resize: 'vertical'
                 }}
                 placeholder="Add internal notes..."
               />
@@ -184,18 +186,18 @@ export default function RequestDetail() {
         {request.status === 'pending_review' && (
           <>
             <div style={{ marginBottom: '2rem' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: 'clamp(16px, 3vw, 18px)', fontWeight: 600, marginBottom: '1rem' }}>
                 Approve Request
               </h3>
-              <div style={{ display: 'flex', gap: '1rem' }}>
-                <Button onClick={handleApprove} disabled={processing}>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Button onClick={handleApprove} disabled={processing} style={{ flex: '1 1 auto', minWidth: '200px' }}>
                   Approve & Send Tickets
                 </Button>
               </div>
             </div>
 
             <div>
-              <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: 'clamp(16px, 3vw, 18px)', fontWeight: 600, marginBottom: '1rem' }}>
                 Reject Request
               </h3>
               <textarea
@@ -210,10 +212,16 @@ export default function RequestDetail() {
                   borderRadius: '4px',
                   fontSize: '14px',
                   fontFamily: 'inherit',
-                  marginBottom: '1rem'
+                  marginBottom: '1rem',
+                  resize: 'vertical'
                 }}
               />
-              <Button variant="danger" onClick={handleReject} disabled={processing || !reason.trim()}>
+              <Button 
+                variant="danger" 
+                onClick={handleReject} 
+                disabled={processing || !reason.trim()}
+                style={{ width: '100%', maxWidth: '300px' }}
+              >
                 Reject Request
               </Button>
             </div>

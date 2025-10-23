@@ -15,7 +15,9 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  # Include '/api' segment after the function name so Express sees '/api/...'
+  # after serverless-http strips the basePath '/.netlify/functions/api'.
+  to = "/.netlify/functions/api/api/:splat"
   status = 200
 
 [[redirects]]

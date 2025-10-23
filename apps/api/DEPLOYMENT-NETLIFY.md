@@ -22,8 +22,9 @@ Required:
 - `SUPABASE_SERVICE_ROLE_KEY`
 
 CORS and public URLs:
-- `APP_URLS` (comma-separated list of allowed origins, e.g. the frontend URL and any admin tools)
-- `PUBLIC_TICKET_BASE_URL` (public URL of this backend site; used in ticket links/QR)
+- `APP_URLS` (comma-separated list of allowed origins, e.g. `https://tedxgju.netlify.app`)
+- `ALLOW_NETLIFY_SUBDOMAINS` = `true` (optional: allows any `*.netlify.app` origin; useful for previews)
+- `PUBLIC_TICKET_BASE_URL` (public URL of this backend site; used in ticket links/QR, e.g. `https://tickets-api.netlify.app`)
 
 Email (choose one provider):
 - `EMAIL_PROVIDER` = `gmail` | `resend` | `sendgrid`
@@ -49,8 +50,21 @@ Google Sheets sync:
 - PDF generation uses `puppeteer-core` + `@sparticuz/chromium` to run on Netlify Functions. The PDF is constrained to a single A4 page.
 - Health checks: `/api/health` and `/api/healthz`.
 
+## CRITICAL: Fix CORS for frontend
+
+In Netlify dashboard for `https://tickets-api.netlify.app`:
+1. Go to Site settings → Environment variables
+2. Add/update these variables:
+   - `APP_URLS` = `https://tedxgju.netlify.app`
+   - `ALLOW_NETLIFY_SUBDOMAINS` = `true` (optional but recommended)
+   - `PUBLIC_TICKET_BASE_URL` = `https://tickets-api.netlify.app`
+3. Redeploy the site for changes to take effect
+
+Without these, CORS will block all frontend requests with "No 'Access-Control-Allow-Origin' header" error.
+
 ## Smoke tests
 
-- `GET https://<backend>.netlify.app/api/health` → `{ status: "ok", ... }`
-- `GET https://<backend>.netlify.app/r/<token>` should redirect to your scanner UI
-- `GET https://<backend>.netlify.app/api/tickets/<id>/pdf` should return a one-page PDF
+- `GET https://tickets-api.netlify.app/api/health` → `{ status: "ok", ... }`
+- `GET https://tickets-api.netlify.app/r/<token>` should redirect to your scanner UI
+- `GET https://tickets-api.netlify.app/api/tickets/<id>/pdf` should return a one-page PDF
+- From browser at `https://tedxgju.netlify.app`, check Network tab for CORS headers on API calls

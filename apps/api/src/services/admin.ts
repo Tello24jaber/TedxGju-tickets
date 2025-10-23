@@ -186,7 +186,7 @@ router.post('/requests/:id/approve', requireAuth, async (req, res) => {
 
     // Send emails
     const emailService = new EmailService();
-    await emailService.sendTickets(tickets, pdfBuffers);
+    await emailService.sendTickets(tickets, pdfBuffers, notes);
 
     // Update request
     const { error: updateError } = await supabase

@@ -86,7 +86,7 @@ export class EmailService {
     }
   }
 
-  async sendTickets(tickets: Ticket[], pdfBuffers: Buffer[]) {
+  async sendTickets(tickets: Ticket[], pdfBuffers: Buffer[], notes?: string) {
     // Wait for transporter to initialize
     await this.initPromise;
     
@@ -136,6 +136,12 @@ export class EmailService {
         <strong>Important:</strong> Each ticket can only be scanned once at the entrance. Please keep your ${ticketWord.toLowerCase()} safe and present ${tickets.length === 1 ? 'it' : 'them'} on the event day.
       </div>
 
+      ${notes ? `
+      <div class="warning">
+        <strong>Note from TEDxGJU Team:</strong> ${notes}
+      </div>
+      ` : ''}
+
       <p><strong>Event Details:</strong></p>
       <ul>
         <li>Event: ${tickets[0].event_name}</li>
@@ -143,11 +149,7 @@ export class EmailService {
         ${tickets[0].seat_tier ? `<li>Seat: ${tickets[0].seat_tier}</li>` : ''}
       </ul>
 
-      <p>You can also view your ${ticketWord.toLowerCase()} online:</p>
-      ${tickets.map(t => `
-        <a href="${process.env.PUBLIC_TICKET_BASE_URL}/api/tickets/${t.id}/pdf" class="button">View Ticket ${tickets.length > 1 ? tickets.indexOf(t) + 1 : ''}</a>
-      `).join('')}
-
+     
       <p>See you at the event!</p>
     </div>
     <div class="footer">
@@ -169,7 +171,7 @@ export class EmailService {
   }
 
   async sendRejectionEmail(email: string, name: string, reason?: string) {
-    // Wait for transporter to initialize
+    
     await this.initPromise;
     
     if (!this.transporter) {

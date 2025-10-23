@@ -1,4 +1,3 @@
-// apps/api/src/routes/tickets.ts
 import express from 'express';
 import { supabase, logAudit } from '../lib/supabase.js';
 import { PDFGenerator } from '../services/pdf-generator.js';

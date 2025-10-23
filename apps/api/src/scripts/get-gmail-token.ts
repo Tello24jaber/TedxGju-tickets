@@ -1,4 +1,3 @@
-// apps/api/src/scripts/get-gmail-token.ts
 import { google } from 'googleapis';
 import readline from 'readline';
 

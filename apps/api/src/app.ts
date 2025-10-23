@@ -1,5 +1,4 @@
-// apps/api/src/app.ts
-// CRITICAL: Load environment variables FIRST
+
 import './env.js';
 
 import express from 'express';
@@ -15,22 +14,31 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS: allow one or more deployed app URLs plus localhost during development
+
+// CORS configuration
 const rawAllowed = process.env.APP_URLS || process.env.APP_URL || '';
 const allowedOrigins = rawAllowed
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean);
 
-// Optional: allow any Netlify frontend subdomain if enabled
 const allowNetlifyWildcard = process.env.ALLOW_NETLIFY_SUBDOMAINS === 'true';
+
+console.log('CORS allowed origins:', allowedOrigins);
+console.log('Netlify wildcard enabled:', allowNetlifyWildcard);
 
 app.use(cors({
   origin(origin, callback) {
+    console.log('Request from origin:', origin);
+    
     if (!origin) return callback(null, true);
+    
     const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
     const isExplicit = allowedOrigins.includes(origin);
     const isNetlify = allowNetlifyWildcard && /^https:\/\/[^.]+\.netlify\.app$/.test(origin);
+    
+    console.log('isLocalhost:', isLocalhost, 'isExplicit:', isExplicit, 'isNetlify:', isNetlify);
+    
     if (isLocalhost || isExplicit || isNetlify) {
       return callback(null, true);
     }

@@ -22,11 +22,16 @@ const allowedOrigins = rawAllowed
   .map((s) => s.trim())
   .filter(Boolean);
 
+// Optional: allow any Netlify frontend subdomain if enabled
+const allowNetlifyWildcard = process.env.ALLOW_NETLIFY_SUBDOMAINS === 'true';
+
 app.use(cors({
   origin(origin, callback) {
     if (!origin) return callback(null, true);
     const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
-    if (isLocalhost || allowedOrigins.includes(origin)) {
+    const isExplicit = allowedOrigins.includes(origin);
+    const isNetlify = allowNetlifyWildcard && /^https:\/\/[^.]+\.netlify\.app$/.test(origin);
+    if (isLocalhost || isExplicit || isNetlify) {
       return callback(null, true);
     }
     return callback(new Error(`CORS: Origin ${origin} not allowed`));
@@ -41,7 +46,9 @@ app.options('*', cors({
   origin(origin, callback) {
     if (!origin) return callback(null, true);
     const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
-    if (isLocalhost || allowedOrigins.includes(origin)) return callback(null, true);
+    const isExplicit = allowedOrigins.includes(origin);
+    const isNetlify = allowNetlifyWildcard && /^https:\/\/[^.]+\.netlify\.app$/.test(origin);
+    if (isLocalhost || isExplicit || isNetlify) return callback(null, true);
     return callback(new Error(`CORS: Origin ${origin} not allowed`));
   }
 }));

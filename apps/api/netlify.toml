@@ -1,0 +1,24 @@
+[build]
+  # No static publish directory for pure API site
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@sparticuz/chromium", "puppeteer-core"]
+
+[functions."api"]
+  timeout = 26
+  memory = 1536
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/r/*"
+  to = "/.netlify/functions/api/r/:splat"
+  status = 200

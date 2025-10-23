@@ -32,7 +32,33 @@ const requireAuth = async (req: express.Request, res: express.Response, next: ex
 // Sync Google Sheets
 router.post('/sync-google', requireAuth, async (req, res) => {
   try {
-    const sheetsService = new GoogleSheetsService();
+    console.log('Starting Google Sheets sync...');
+    
+    // Check environment variables
+    if (!process.env.GOOGLE_SPREADSHEET_ID) {
+      return res.status(500).json({ 
+        error: 'GOOGLE_SPREADSHEET_ID environment variable is not set' 
+      });
+    }
+    
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+      return res.status(500).json({ 
+        error: 'GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set' 
+      });
+    }
+
+    console.log('Spreadsheet ID:', process.env.GOOGLE_SPREADSHEET_ID);
+    
+    let sheetsService;
+    try {
+      sheetsService = new GoogleSheetsService();
+    } catch (error: any) {
+      console.error('Failed to initialize Google Sheets service:', error);
+      return res.status(500).json({ 
+        error: 'Failed to initialize Google Sheets service',
+        details: error.message 
+      });
+    }
     
     // Get last synced row
     const { data: state } = await supabase
@@ -42,9 +68,21 @@ router.post('/sync-google', requireAuth, async (req, res) => {
       .single();
 
     const lastRow = state?.value?.row_index || 0;
+    console.log('Last synced row:', lastRow);
     
     // Fetch new rows
-    const newRows = await sheetsService.getNewRows(lastRow);
+    let newRows;
+    try {
+      newRows = await sheetsService.getNewRows(lastRow);
+      console.log('Fetched rows:', newRows.length);
+    } catch (error: any) {
+      console.error('Failed to fetch rows from Google Sheets:', error);
+      return res.status(500).json({ 
+        error: 'Failed to fetch data from Google Sheets',
+        details: error.message,
+        hint: 'Check if the service account has access to the spreadsheet and the sheet name is "Event"'
+      });
+    }
     
     if (newRows.length === 0) {
       return res.json({ message: 'No new rows to sync', count: 0 });

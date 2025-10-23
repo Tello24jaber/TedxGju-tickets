@@ -17,10 +17,20 @@ app.use(helmet());
 
 // CORS configuration
 const rawAllowed = process.env.APP_URLS || process.env.APP_URL || '';
-const allowedOrigins = rawAllowed
-  .split(',')
-  .map((s) => s.trim())
-  .filter(Boolean);
+const defaultOrigins = [
+  'https://tedxgju.netlify.app',
+  'https://tickets-api.netlify.app',
+  process.env.NETLIFY_SITE_URL,
+  process.env.DEPLOY_URL
+].filter((value): value is string => Boolean(value));
+
+const allowedOrigins = Array.from(new Set([
+  ...defaultOrigins,
+  ...rawAllowed
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+]));
 
 const allowNetlifyWildcard = process.env.ALLOW_NETLIFY_SUBDOMAINS === 'true';
 

@@ -26,6 +26,36 @@ router.post('/redeem', redeemLimiter, async (req, res) => {
       });
     }
 
+    // First, try to find the ticket by full token OR by token prefix (first 8 chars from PDF code)
+    let ticketToken = token;
+    
+    // If token is short (8 chars or less), search by prefix
+    if (token.length <= 8) {
+      const { data: tickets } = await supabase
+        .from('tickets')
+        .select('token')
+        .ilike('token', `${token}%`)
+        .limit(2); // Check if multiple matches
+
+      if (!tickets || tickets.length === 0) {
+        await logAudit('redeem_failed', 'tickets', undefined, { token, reason: 'invalid' });
+        return res.json({
+          success: false,
+          message: 'Invalid ticket code'
+        } as RedeemResponse);
+      }
+
+      if (tickets.length > 1) {
+        await logAudit('redeem_failed', 'tickets', undefined, { token, reason: 'ambiguous' });
+        return res.json({
+          success: false,
+          message: 'Ticket code is ambiguous, please scan QR code'
+        } as RedeemResponse);
+      }
+
+      ticketToken = tickets[0].token;
+    }
+
     // Atomic update: only succeeds if status is 'valid'
     const { data: ticket, error } = await supabase
       .from('tickets')
@@ -34,7 +64,7 @@ router.post('/redeem', redeemLimiter, async (req, res) => {
         redeemed_at: new Date().toISOString(),
         redeemed_by: req.ip || 'unknown'
       })
-      .eq('token', token)
+      .eq('token', ticketToken)
       .eq('status', 'valid')
       .select()
       .single();
@@ -44,7 +74,7 @@ router.post('/redeem', redeemLimiter, async (req, res) => {
       const { data: existingTicket } = await supabase
         .from('tickets')
         .select('*')
-        .eq('token', token)
+        .eq('token', ticketToken)
         .single();
 
       if (!existingTicket) {

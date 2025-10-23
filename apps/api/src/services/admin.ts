@@ -139,7 +139,6 @@ router.get('/requests/:id', requireAuth, async (req, res) => {
 // Approve request
 router.post('/requests/:id/approve', requireAuth, async (req, res) => {
   try {
-    const { notes } = req.body;
     const userId = (req as any).user.id;
 
     // Get request
@@ -186,7 +185,7 @@ router.post('/requests/:id/approve', requireAuth, async (req, res) => {
 
     // Send emails
     const emailService = new EmailService();
-    await emailService.sendTickets(tickets, pdfBuffers, notes);
+    await emailService.sendTickets(tickets, pdfBuffers);
 
     // Update request
     const { error: updateError } = await supabase
@@ -194,7 +193,6 @@ router.post('/requests/:id/approve', requireAuth, async (req, res) => {
       .update({
         status: 'approved',
         reviewer_id: userId,
-        notes: notes || request.notes,
         updated_at: new Date().toISOString()
       })
       .eq('id', request.id);

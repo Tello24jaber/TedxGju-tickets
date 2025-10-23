@@ -45,12 +45,11 @@ export async function getRequest(id: string) {
   return res.json();
 }
 
-export async function approveRequest(id: string, notes?: string) {
+export async function approveRequest(id: string) {
   const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}/api/admin/requests/${id}/approve`, {
     method: 'POST',
-    headers,
-    body: JSON.stringify({ notes })
+    headers
   });
   if (!res.ok) throw new Error('Failed to approve');
   return res.json();
@@ -67,10 +66,9 @@ export async function rejectRequest(id: string, reason?: string) {
   return res.json();
 }
 
-export async function getTickets(search?: string, status?: string) {
+export async function getTickets(status?: string) {
   const headers = await getAuthHeaders();
   const params = new URLSearchParams();
-  if (search) params.set('search', search);
   if (status) params.set('status', status);
   
   const res = await fetch(`${API_URL}/api/tickets?${params}`, { headers });

@@ -86,7 +86,7 @@ export class EmailService {
     }
   }
 
-  async sendTickets(tickets: Ticket[], pdfBuffers: Buffer[], notes?: string) {
+  async sendTickets(tickets: Ticket[], pdfBuffers: Buffer[]) {
     // Wait for transporter to initialize
     await this.initPromise;
     
@@ -244,12 +244,6 @@ export class EmailService {
       <div class="warning">
         <strong>Important:</strong> Each ticket can only be scanned once at the entrance. Please keep your ${ticketWord.toLowerCase()} safe and present ${tickets.length === 1 ? 'it' : 'them'} on the event day.
       </div>
-
-      ${notes ? `
-      <div class="warning">
-        <strong>Note from TEDxGJU Team:</strong> ${notes}
-      </div>
-      ` : ''}
 
       <p><strong>Event Details:</strong></p>
       <ul>

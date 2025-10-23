@@ -12,7 +12,6 @@ export default function RequestDetail() {
   const [request, setRequest] = useState<PurchaseRequest | null>(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const [notes, setNotes] = useState('');
   const [reason, setReason] = useState('');
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export default function RequestDetail() {
       try {
         const data = await getRequest(id);
         setRequest(data);
-        setNotes(data.notes || '');
       } catch (error) {
         console.error('Failed to load request:', error);
       } finally {
@@ -38,7 +36,7 @@ export default function RequestDetail() {
     
     try {
       setProcessing(true);
-      await approveRequest(request.id, notes);
+      await approveRequest(request.id);
       alert('Request approved! Tickets sent.');
       navigate('/queue');
     } catch (error) {
@@ -160,26 +158,16 @@ export default function RequestDetail() {
               <p style={{ fontSize: '14px' }}>{new Date(request.created_at).toLocaleString()}</p>
             </div>
 
-            <div>
-              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
-                Notes
-              </label>
-              <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                rows={3}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  resize: 'vertical'
-                }}
-                placeholder="Add internal notes..."
-              />
-            </div>
+            {request.notes && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                  Notes
+                </label>
+                <p style={{ fontSize: '14px', padding: '0.75rem', background: '#f5f5f5', borderRadius: '4px' }}>
+                  {request.notes}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

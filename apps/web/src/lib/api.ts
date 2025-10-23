@@ -23,7 +23,11 @@ export async function syncGoogleSheets() {
     method: 'POST',
     headers
   });
-  if (!res.ok) throw new Error('Sync failed');
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    const errorMessage = errorData.error || errorData.details || errorData.hint || 'Sync failed';
+    throw new Error(errorMessage);
+  }
   return res.json();
 }
 

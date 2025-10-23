@@ -31,8 +31,10 @@ export default function Queue() {
       await syncGoogleSheets();
       await loadRequests();
       alert('Sync completed!');
-    } catch (error) {
-      alert('Sync failed');
+    } catch (error: any) {
+      console.error('Sync error:', error);
+      const errorMessage = error.response?.data?.error || error.response?.data?.details || error.message || 'Sync failed';
+      alert(`Sync failed: ${errorMessage}`);
     } finally {
       setSyncing(false);
     }

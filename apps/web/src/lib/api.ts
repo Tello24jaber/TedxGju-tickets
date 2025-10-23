@@ -1,7 +1,9 @@
 // apps/web/src/lib/api.ts
 import { supabase } from './supabase';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Use empty string to make requests relative (same-origin via Netlify proxy)
+// This eliminates all CORS issues
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 async function getAuthHeaders() {
   const { data: { session } } = await supabase.auth.getSession();

@@ -63,12 +63,19 @@ export class PDFGenerator {
   <style>
     @page { size: A4; margin: 0; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      width: 210mm; 
+    html, body { 
+      width: 210mm;
       height: 297mm;
+      margin: 0;
+      padding: 0;
+    }
+    body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: #ffffff;
+      background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
@@ -96,23 +103,21 @@ export class PDFGenerator {
       opacity: 0.04;
     }
     
-    /* Full page ticket container */
-    .ticket-card {
-      position: relative;
+    /* Main container - centered */
+    .ticket-container {
       width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
-      display: flex;
-      flex-direction: column;
+      max-width: 170mm;
+      text-align: center;
     }
     
     /* Top red strip */
     .top-strip {
-      height: 20mm;
+      height: 15mm;
       background: linear-gradient(90deg, #e62b1e 0%, #c41f17 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 15mm;
     }
     
     .top-strip-text {
@@ -123,13 +128,7 @@ export class PDFGenerator {
       font-weight: 700;
     }
     
-    /* Header */
-    .header {
-      text-align: center;
-      padding: 20mm 20mm 15mm;
-      flex: 0 0 auto;
-    }
-    
+    /* Logo and header */
     .logo {
       font-size: 52px;
       font-weight: 700;
@@ -159,32 +158,29 @@ export class PDFGenerator {
       font-weight: 500;
       line-height: 1.8;
       margin-top: 6mm;
+      margin-bottom: 10mm;
     }
     .venue-line {
       display: block;
     }
     
-    /* Dashed separator line */
+    /* Dashed separator */
     .separator {
-      margin: 0 30mm;
+      width: 100%;
       border-top: 3px dashed #e0e0e0;
+      margin: 15mm 0;
     }
     
-    /* Main content area */
+    /* Content area */
     .content {
-      flex: 1;
-      padding: 15mm 30mm;
       display: flex;
       gap: 15mm;
       align-items: center;
       justify-content: center;
+      margin: 15mm 0;
     }
     
-    /* QR Code section */
-    .qr-section {
-      flex: 0 0 auto;
-    }
-    
+    /* QR Code */
     .qr-wrapper {
       background: #ffffff;
       padding: 8mm;
@@ -201,8 +197,8 @@ export class PDFGenerator {
     
     /* Info section */
     .info-section {
-      flex: 1;
       text-align: left;
+      min-width: 70mm;
     }
     
     .info-item {
@@ -230,6 +226,7 @@ export class PDFGenerator {
       font-size: 22px;
       color: #1a1a1a;
       font-weight: 600;
+      word-wrap: break-word;
     }
     
     .ticket-code {
@@ -252,6 +249,7 @@ export class PDFGenerator {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 15mm;
     }
     
     .bottom-strip-text {
@@ -273,22 +271,20 @@ export class PDFGenerator {
   <div class="bg-circle bg-circle-2"></div>
   <div class="bg-circle bg-circle-3"></div>
   
-  <div class="ticket-card">
+  <div class="ticket-container">
     <!-- Top red strip -->
     <div class="top-strip">
       <div class="top-strip-text">Event Ticket</div>
     </div>
     
     <!-- Header -->
-    <div class="header">
-      <div class="logo">
-        <span class="tedx">TEDx</span><span class="gju">GJU</span>
-      </div>
-      <div class="event-name">${this.escapeHtml(ticket.event_name)}</div>
-      <div class="venue">
-        <span class="venue-line">German Jordanian University</span>
-        <span class="venue-line">Main Campus · Auditorium G</span>
-      </div>
+    <div class="logo">
+      <span class="tedx">TEDx</span><span class="gju">GJU</span>
+    </div>
+    <div class="event-name">${this.escapeHtml(ticket.event_name)}</div>
+    <div class="venue">
+      <span class="venue-line">German Jordanian University</span>
+      <span class="venue-line">Main Campus · Auditorium G</span>
     </div>
     
     <!-- Dashed separator -->
@@ -297,10 +293,8 @@ export class PDFGenerator {
     <!-- Main content -->
     <div class="content">
       <!-- QR Code -->
-      <div class="qr-section">
-        <div class="qr-wrapper">
-          <img src="${qrDataUrl}" alt="QR Code">
-        </div>
+      <div class="qr-wrapper">
+        <img src="${qrDataUrl}" alt="QR Code">
       </div>
       
       <!-- Info -->

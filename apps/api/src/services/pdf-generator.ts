@@ -101,7 +101,6 @@ export class PDFGenerator {
         <div><span class="label">Name:</span> ${this.escapeHtml(ticket.purchaser_name)}</div>
         ${phone ? `<div><span class=\"label\">Phone:</span> ${this.escapeHtml(phone)}</div>` : ''}
         <div><span class="label">Code:</span> ${this.escapeHtml(ticket.token.substring(0, 8))}</div>
-        <div class="small">${this.escapeHtml(qrUrl)}</div>
       </div>
     </div>
   </div>

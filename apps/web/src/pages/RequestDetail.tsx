@@ -160,6 +160,17 @@ export default function RequestDetail() {
               </div>
             )}
 
+            {!request.proof_url && request.payment_type?.toLowerCase() !== 'cash' && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                  Proof of Payment
+                </label>
+                <p style={{ fontSize: '14px', padding: '0.75rem', background: '#fff3cd', borderRadius: '4px', color: '#856404', border: '1px solid #ffeaa7' }}>
+                  ⚠️ No proof submitted
+                </p>
+              </div>
+            )}
+
             {request.payment_type?.toLowerCase() === 'cash' && (
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>

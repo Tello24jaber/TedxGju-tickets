@@ -63,265 +63,45 @@ export class PDFGenerator {
   <style>
     @page { size: A4; margin: 0; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { 
-      width: 210mm;
-      height: 297mm;
-      margin: 0;
-      padding: 0;
-    }
+    html, body { height: 100%; }
     body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+      width: 210mm; height: 297mm; /* A4 portrait */
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      color: #000; background: #fff;
+      display: flex; align-items: center; justify-content: center;
     }
-    
-    /* Background decorative elements */
-    .bg-circle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.06;
+    .card {
+      width: 170mm; /* keep generous margins to ensure single page */
+      border: 2px solid #000; padding: 12mm; background: #fff;
     }
-    .bg-circle-1 {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, #e62b1e 0%, transparent 70%);
-      top: -200px; right: -150px;
-    }
-    .bg-circle-2 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, #ff4444 0%, transparent 70%);
-      bottom: -100px; left: -100px;
-    }
-    .bg-circle-3 {
-      width: 250px; height: 250px;
-      background: radial-gradient(circle, #e62b1e 0%, transparent 70%);
-      top: 40%; right: -80px;
-      opacity: 0.04;
-    }
-    
-    /* Main container - centered */
-    .ticket-container {
-      width: 100%;
-      max-width: 170mm;
-      text-align: center;
-    }
-    
-    /* Top red strip */
-    .top-strip {
-      height: 15mm;
-      background: linear-gradient(90deg, #e62b1e 0%, #c41f17 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15mm;
-    }
-    
-    .top-strip-text {
-      font-size: 14px;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-weight: 700;
-    }
-    
-    /* Logo and header */
-    .logo {
-      font-size: 52px;
-      font-weight: 700;
-      letter-spacing: -2px;
-      margin-bottom: 8mm;
-    }
-    .logo .tedx {
-      color: #000000;
-    }
-    .logo .gju {
-      color: #e62b1e;
-    }
-    
-    .event-name {
-      font-size: 28px;
-      color: #1a1a1a;
-      font-weight: 600;
-      margin-bottom: 6mm;
-      padding-bottom: 5mm;
-      border-bottom: 3px solid #e62b1e;
-      display: inline-block;
-    }
-    
-    .venue {
-      font-size: 16px;
-      color: #666666;
-      font-weight: 500;
-      line-height: 1.8;
-      margin-top: 6mm;
-      margin-bottom: 10mm;
-    }
-    .venue-line {
-      display: block;
-    }
-    
-    /* Dashed separator */
-    .separator {
-      width: 100%;
-      border-top: 3px dashed #e0e0e0;
-      margin: 15mm 0;
-    }
-    
-    /* Content area */
-    .content {
-      display: flex;
-      gap: 15mm;
-      align-items: center;
-      justify-content: center;
-      margin: 15mm 0;
-    }
-    
-    /* QR Code */
-    .qr-wrapper {
-      background: #ffffff;
-      padding: 8mm;
-      border-radius: 4mm;
-      box-shadow: 0 6px 30px rgba(230, 43, 30, 0.2);
-      border: 4px solid #e62b1e;
-    }
-    
-    .qr-wrapper img {
-      width: 70mm;
-      height: 70mm;
-      display: block;
-    }
-    
-    /* Info section */
-    .info-section {
-      text-align: left;
-      min-width: 70mm;
-    }
-    
-    .info-item {
-      margin-bottom: 10mm;
-      padding-bottom: 8mm;
-      border-bottom: 2px solid #f0f0f0;
-    }
-    .info-item:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-    
-    .info-label {
-      font-size: 12px;
-      color: #999999;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-weight: 700;
-      margin-bottom: 3mm;
-      display: block;
-    }
-    
-    .info-value {
-      font-size: 22px;
-      color: #1a1a1a;
-      font-weight: 600;
-      word-wrap: break-word;
-    }
-    
-    .ticket-code {
-      font-family: 'Courier New', monospace;
-      font-size: 24px;
-      letter-spacing: 4px;
-      color: #e62b1e;
-      font-weight: 700;
-      background: #f8f8f8;
-      padding: 5mm 7mm;
-      border-radius: 3mm;
-      display: inline-block;
-      border: 3px dashed #e62b1e;
-    }
-    
-    /* Bottom strip */
-    .bottom-strip {
-      height: 15mm;
-      background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 15mm;
-    }
-    
-    .bottom-strip-text {
-      font-size: 13px;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-weight: 600;
-    }
-    
-    .bottom-strip-text .red {
-      color: #e62b1e;
-    }
+    .header { text-align: center; margin-bottom: 8mm; }
+    .logo { font-size: 24px; font-weight: 700; }
+    .logo span { color: #e62b1e; }
+    .event-name { font-size: 18px; font-weight: 600; margin-top: 2mm; }
+  .ticket-id { font-size: 11px; color: #666; margin: 4mm 0; font-family: monospace; }
+    .row { display: flex; gap: 8mm; margin: 6mm 0; align-items: center; }
+    .qr { flex: 0 0 auto; }
+    .qr img { width: 55mm; height: 55mm; }
+    .info { flex: 1 1 auto; font-size: 14px; }
+    .label { font-weight: 600; width: 28mm; display: inline-block; }
+    .small { font-size: 11px; color: #666; margin-top: 2mm; word-break: break-all; }
   </style>
 </head>
 <body>
-  <!-- Background decorations -->
-  <div class="bg-circle bg-circle-1"></div>
-  <div class="bg-circle bg-circle-2"></div>
-  <div class="bg-circle bg-circle-3"></div>
-  
-  <div class="ticket-container">
-    <!-- Top red strip -->
-    <div class="top-strip">
-      <div class="top-strip-text">Event Ticket</div>
+  <div class="card">
+    <div class="header">
+      <div class="logo">TEDx<span>GJU</span></div>
+      <div class="event-name">${this.escapeHtml(ticket.event_name)}</div>
     </div>
-    
-    <!-- Header -->
-    <div class="logo">
-      <span class="tedx">TEDx</span><span class="gju">GJU</span>
-    </div>
-    <div class="event-name">${this.escapeHtml(ticket.event_name)}</div>
-    <div class="venue">
-      <span class="venue-line">German Jordanian University</span>
-      <span class="venue-line">Main Campus · Auditorium G</span>
-    </div>
-    
-    <!-- Dashed separator -->
-    <div class="separator"></div>
-    
-    <!-- Main content -->
-    <div class="content">
-      <!-- QR Code -->
-      <div class="qr-wrapper">
-        <img src="${qrDataUrl}" alt="QR Code">
-      </div>
-      
-      <!-- Info -->
-      <div class="info-section">
-        <div class="info-item">
-          <span class="info-label">Attendee Name</span>
-          <div class="info-value">${this.escapeHtml(ticket.purchaser_name)}</div>
-        </div>
-        
-        ${phone ? `
-        <div class="info-item">
-          <span class="info-label">Phone Number</span>
-          <div class="info-value">${this.escapeHtml(phone)}</div>
-        </div>
-        ` : ''}
-        
-        <div class="info-item">
-          <span class="info-label">Ticket Code</span>
-          <div class="ticket-code">${this.escapeHtml(ticket.token.substring(0, 8).toUpperCase())}</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Bottom strip -->
-    <div class="bottom-strip">
-      <div class="bottom-strip-text">
-        <span class="red">TEDx</span>GJU · Admit One
+    <!-- Keep an internal ID small; not primary visible number as per requirements -->
+    <div class="ticket-id">Ref: ${this.escapeHtml(ticket.id.substring(0, 8))}</div>
+    <div class="row">
+      <div class="qr"><img src="${qrDataUrl}" alt="QR Code"></div>
+      <div class="info">
+        <div><span class="label">Name:</span> ${this.escapeHtml(ticket.purchaser_name)}</div>
+        ${phone ? `<div><span class=\"label\">Phone:</span> ${this.escapeHtml(phone)}</div>` : ''}
+        <div><span class="label">Code:</span> ${this.escapeHtml(ticket.token.substring(0, 8))}</div>
+        <div class="small">${this.escapeHtml(qrUrl)}</div>
       </div>
     </div>
   </div>

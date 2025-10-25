@@ -57,6 +57,7 @@ router.post('/sync-google', requireAuth, async (req, res) => {
       event_name: row.eventName,
       qty: row.quantity,
       seat_tier: row.seatTier,
+      payment_type: row.paymentType,
       proof_url: row.proofUrl,
       notes: row.notes,
       status: 'pending_review'

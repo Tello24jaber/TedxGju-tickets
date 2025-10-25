@@ -85,7 +85,7 @@ export default function Queue() {
           </p>
         ) : (
           <div className="table-container" style={{ overflow: 'auto', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', minWidth: '800px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', minWidth: '900px' }}>
               <thead>
                 <tr style={{ background: '#f5f5f5', borderBottom: '2px solid #ddd' }}>
                   <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Name</th>
@@ -93,6 +93,7 @@ export default function Queue() {
                   <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Event</th>
                   <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600, fontSize: '14px' }}>Qty</th>
                   <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Seat</th>
+                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Payment</th>
                   <th style={{ padding: '1rem', textAlign: 'left', fontWeight: 600, fontSize: '14px' }}>Submitted</th>
                   <th style={{ padding: '1rem', textAlign: 'center', fontWeight: 600, fontSize: '14px' }}>Actions</th>
                 </tr>
@@ -105,6 +106,7 @@ export default function Queue() {
                     <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.event_name}</td>
                     <td style={{ padding: '0.75rem 1rem', textAlign: 'center', fontSize: '14px' }}>{req.qty}</td>
                     <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.seat_tier || '-'}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontSize: '14px' }}>{req.payment_type || '-'}</td>
                     <td style={{ padding: '0.75rem 1rem', fontSize: '13px', whiteSpace: 'nowrap' }}>
                       {new Date(req.created_at).toLocaleDateString()}
                     </td>

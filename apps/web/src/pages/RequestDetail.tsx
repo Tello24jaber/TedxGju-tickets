@@ -138,16 +138,36 @@ export default function RequestDetail() {
                   <p style={{ fontSize: '14px' }}>{request.seat_tier}</p>
                 </div>
               )}
+
+              {request.payment_type && (
+                <div>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                    Payment Type
+                  </label>
+                  <p style={{ fontSize: '14px' }}>{request.payment_type}</p>
+                </div>
+              )}
             </div>
 
-            {request.proof_url && (
+            {request.proof_url && request.payment_type?.toLowerCase() !== 'cash' && (
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
                   Proof of Payment
                 </label>
-                <a href={request.proof_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '14px' }}>
+                <a href={request.proof_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '14px', color: '#e62b1e', textDecoration: 'underline' }}>
                   View Document
                 </a>
+              </div>
+            )}
+
+            {request.payment_type?.toLowerCase() === 'cash' && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                  Payment Method
+                </label>
+                <p style={{ fontSize: '14px', padding: '0.75rem', background: '#f0f9ff', borderRadius: '4px', color: '#0369a1' }}>
+                  Cash Payment - No proof required
+                </p>
               </div>
             )}
 

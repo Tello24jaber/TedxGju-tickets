@@ -14,6 +14,7 @@ CREATE TABLE purchase_requests (
   qty INTEGER NOT NULL CHECK (qty > 0),
   seat_tier TEXT,
   proof_url TEXT,
+  payment_type TEXT,
   status TEXT NOT NULL CHECK (status IN ('pending_review', 'approved', 'rejected')),
   reviewer_id UUID REFERENCES auth.users(id),
   notes TEXT,

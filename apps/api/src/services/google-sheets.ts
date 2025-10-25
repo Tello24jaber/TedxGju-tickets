@@ -69,6 +69,7 @@ export class GoogleSheetsService {
         const quantityStr = getCell('quantity') || '1';
         const quantity = parseInt(quantityStr) || 1;
         const seatTier = getCell('seat') || getCell('tier');
+        const paymentType = getCell('payment type') || getCell('payment');
         const proofUrl = getCell('proof') || getCell('url');
         const notes = getCell('notes');
 
@@ -83,6 +84,7 @@ export class GoogleSheetsService {
           eventName,
           quantity,
           seatTier,
+          paymentType,
           proofUrl,
           notes
         });

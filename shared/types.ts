@@ -12,6 +12,7 @@ export interface PurchaseRequest {
   qty: number;
   seat_tier?: string;
   proof_url?: string;
+  payment_type?: string;
   status: PurchaseRequestStatus;
   reviewer_id?: string;
   notes?: string;
@@ -53,6 +54,7 @@ export interface SheetRow {
   quantity: number;
   seatTier?: string;
   proofUrl?: string;
+  paymentType?: string;
   notes?: string;
 }
 

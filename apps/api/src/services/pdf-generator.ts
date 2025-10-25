@@ -68,175 +68,222 @@ export class PDFGenerator {
       width: 210mm; 
       height: 297mm;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
     
-    /* Decorative circles */
-    .circle {
+    /* Background decorative elements */
+    .bg-circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.1;
-    }
-    .circle-1 {
-      width: 300px; height: 300px;
-      background: #e62b1e;
-      top: -100px; right: -100px;
-    }
-    .circle-2 {
-      width: 200px; height: 200px;
-      background: #ff4444;
-      bottom: 50px; left: -50px;
-    }
-    .circle-3 {
-      width: 150px; height: 150px;
-      background: #e62b1e;
-      top: 50%; left: 10%;
-      opacity: 0.05;
-    }
-    .circle-4 {
-      width: 100px; height: 100px;
-      background: #ff6666;
-      top: 20%; right: 15%;
       opacity: 0.08;
     }
+    .bg-circle-1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #e62b1e 0%, transparent 70%);
+      top: -200px; right: -150px;
+    }
+    .bg-circle-2 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #ff4444 0%, transparent 70%);
+      bottom: -100px; left: -100px;
+    }
     
-    /* Main container */
-    .ticket {
+    /* Ticket container - looks like an actual ticket */
+    .ticket-card {
       position: relative;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 15mm;
+      width: 180mm;
+      background: #ffffff;
+      border-radius: 6mm;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
       z-index: 1;
+    }
+    
+    /* Top red strip */
+    .top-strip {
+      height: 12mm;
+      background: linear-gradient(90deg, #e62b1e 0%, #c41f17 100%);
+      position: relative;
+    }
+    
+    /* Decorative notches on sides to look like a tear-off ticket */
+    .ticket-card::before,
+    .ticket-card::after {
+      content: '';
+      position: absolute;
+      width: 8mm;
+      height: 8mm;
+      background: #1a1a1a;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .ticket-card::before {
+      left: -4mm;
+    }
+    .ticket-card::after {
+      right: -4mm;
     }
     
     /* Header */
     .header {
       text-align: center;
-      margin-bottom: 15mm;
+      padding: 12mm 15mm 10mm;
+      background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
     }
     
     .logo {
-      font-size: 48px;
+      font-size: 42px;
       font-weight: 700;
       letter-spacing: -2px;
-      margin-bottom: 8mm;
+      margin-bottom: 5mm;
     }
     .logo .tedx {
-      color: #ffffff;
+      color: #000000;
     }
     .logo .gju {
       color: #e62b1e;
     }
     
     .event-name {
-      font-size: 24px;
-      color: #ffffff;
-      font-weight: 300;
-      margin-bottom: 3mm;
-      letter-spacing: 1px;
+      font-size: 22px;
+      color: #1a1a1a;
+      font-weight: 600;
+      margin-bottom: 4mm;
+      padding-bottom: 4mm;
+      border-bottom: 2px solid #e62b1e;
+      display: inline-block;
     }
     
     .venue {
-      font-size: 14px;
-      color: #999999;
-      font-weight: 400;
+      font-size: 13px;
+      color: #666666;
+      font-weight: 500;
       line-height: 1.6;
+      margin-top: 4mm;
     }
     .venue-line {
       display: block;
     }
     
-    /* Divider */
-    .divider {
-      width: 80mm;
-      height: 1px;
-      background: linear-gradient(90deg, transparent 0%, #e62b1e 50%, transparent 100%);
-      margin: 10mm 0;
+    /* Dashed separator line */
+    .separator {
+      margin: 0 15mm;
+      border-top: 2px dashed #e0e0e0;
+    }
+    
+    /* Main content area */
+    .content {
+      padding: 10mm 15mm;
+      display: flex;
+      gap: 12mm;
+      align-items: center;
+      justify-content: center;
     }
     
     /* QR Code section */
     .qr-section {
-      margin: 8mm 0;
+      flex: 0 0 auto;
     }
     
     .qr-wrapper {
       background: #ffffff;
-      padding: 8mm;
-      border-radius: 4mm;
-      box-shadow: 0 8px 32px rgba(230, 43, 30, 0.3);
-      display: inline-block;
+      padding: 5mm;
+      border-radius: 3mm;
+      box-shadow: 0 4px 20px rgba(230, 43, 30, 0.15);
+      border: 3px solid #e62b1e;
     }
     
     .qr-wrapper img {
-      width: 60mm;
-      height: 60mm;
+      width: 55mm;
+      height: 55mm;
       display: block;
     }
     
     /* Info section */
     .info-section {
-      text-align: center;
-      margin-top: 10mm;
-      width: 100%;
-      max-width: 150mm;
+      flex: 1;
+      text-align: left;
     }
     
     .info-item {
       margin-bottom: 6mm;
-      padding: 4mm 6mm;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 2mm;
-      border-left: 3px solid #e62b1e;
+      padding-bottom: 6mm;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .info-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
     
     .info-label {
       font-size: 10px;
       color: #999999;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      font-weight: 600;
+      letter-spacing: 1.5px;
+      font-weight: 700;
       margin-bottom: 2mm;
       display: block;
     }
     
     .info-value {
-      font-size: 18px;
-      color: #ffffff;
-      font-weight: 500;
+      font-size: 16px;
+      color: #1a1a1a;
+      font-weight: 600;
     }
     
     .ticket-code {
       font-family: 'Courier New', monospace;
-      font-size: 20px;
+      font-size: 18px;
       letter-spacing: 3px;
       color: #e62b1e;
       font-weight: 700;
+      background: #f8f8f8;
+      padding: 3mm 4mm;
+      border-radius: 2mm;
+      display: inline-block;
+      border: 2px dashed #e62b1e;
     }
     
-    /* Bottom accent */
-    .bottom-accent {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3mm;
-      background: linear-gradient(90deg, #e62b1e 0%, #ff2e1f 50%, #e62b1e 100%);
+    /* Bottom strip */
+    .bottom-strip {
+      height: 8mm;
+      background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .bottom-strip-text {
+      font-size: 10px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    
+    .bottom-strip-text .red {
+      color: #e62b1e;
     }
   </style>
 </head>
 <body>
-  <!-- Decorative circles -->
-  <div class="circle circle-1"></div>
-  <div class="circle circle-2"></div>
-  <div class="circle circle-3"></div>
-  <div class="circle circle-4"></div>
+  <!-- Background decorations -->
+  <div class="bg-circle bg-circle-1"></div>
+  <div class="bg-circle bg-circle-2"></div>
   
-  <div class="ticket">
+  <div class="ticket-card">
+    <!-- Top red strip -->
+    <div class="top-strip"></div>
+    
+    <!-- Header -->
     <div class="header">
       <div class="logo">
         <span class="tedx">TEDx</span><span class="gju">GJU</span>
@@ -248,35 +295,46 @@ export class PDFGenerator {
       </div>
     </div>
     
-    <div class="divider"></div>
+    <!-- Dashed separator -->
+    <div class="separator"></div>
     
-    <div class="qr-section">
-      <div class="qr-wrapper">
-        <img src="${qrDataUrl}" alt="QR Code">
+    <!-- Main content -->
+    <div class="content">
+      <!-- QR Code -->
+      <div class="qr-section">
+        <div class="qr-wrapper">
+          <img src="${qrDataUrl}" alt="QR Code">
+        </div>
+      </div>
+      
+      <!-- Info -->
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-label">Attendee Name</span>
+          <div class="info-value">${this.escapeHtml(ticket.purchaser_name)}</div>
+        </div>
+        
+        ${phone ? `
+        <div class="info-item">
+          <span class="info-label">Phone Number</span>
+          <div class="info-value">${this.escapeHtml(phone)}</div>
+        </div>
+        ` : ''}
+        
+        <div class="info-item">
+          <span class="info-label">Ticket Code</span>
+          <div class="ticket-code">${this.escapeHtml(ticket.token.substring(0, 8).toUpperCase())}</div>
+        </div>
       </div>
     </div>
     
-    <div class="info-section">
-      <div class="info-item">
-        <span class="info-label">Attendee</span>
-        <div class="info-value">${this.escapeHtml(ticket.purchaser_name)}</div>
-      </div>
-      
-      ${phone ? `
-      <div class="info-item">
-        <span class="info-label">Phone</span>
-        <div class="info-value">${this.escapeHtml(phone)}</div>
-      </div>
-      ` : ''}
-      
-      <div class="info-item">
-        <span class="info-label">Ticket Code</span>
-        <div class="ticket-code">${this.escapeHtml(ticket.token.substring(0, 8).toUpperCase())}</div>
+    <!-- Bottom strip -->
+    <div class="bottom-strip">
+      <div class="bottom-strip-text">
+        <span class="red">TEDx</span>GJU · Admit One
       </div>
     </div>
   </div>
-  
-  <div class="bottom-accent"></div>
 </body>
 </html>
     `;

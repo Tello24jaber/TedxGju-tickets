@@ -68,10 +68,7 @@ export class PDFGenerator {
       width: 210mm; 
       height: 297mm;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: #ffffff;
       position: relative;
       overflow: hidden;
     }
@@ -80,7 +77,7 @@ export class PDFGenerator {
     .bg-circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.08;
+      opacity: 0.06;
     }
     .bg-circle-1 {
       width: 400px; height: 400px;
@@ -92,57 +89,52 @@ export class PDFGenerator {
       background: radial-gradient(circle, #ff4444 0%, transparent 70%);
       bottom: -100px; left: -100px;
     }
+    .bg-circle-3 {
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, #e62b1e 0%, transparent 70%);
+      top: 40%; right: -80px;
+      opacity: 0.04;
+    }
     
-    /* Ticket container - looks like an actual ticket */
+    /* Full page ticket container */
     .ticket-card {
       position: relative;
-      width: 180mm;
-      background: #ffffff;
-      border-radius: 6mm;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+      display: flex;
+      flex-direction: column;
     }
     
     /* Top red strip */
     .top-strip {
-      height: 12mm;
+      height: 20mm;
       background: linear-gradient(90deg, #e62b1e 0%, #c41f17 100%);
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
-    /* Decorative notches on sides to look like a tear-off ticket */
-    .ticket-card::before,
-    .ticket-card::after {
-      content: '';
-      position: absolute;
-      width: 8mm;
-      height: 8mm;
-      background: #1a1a1a;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 2;
-    }
-    .ticket-card::before {
-      left: -4mm;
-    }
-    .ticket-card::after {
-      right: -4mm;
+    .top-strip-text {
+      font-size: 14px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
     }
     
     /* Header */
     .header {
       text-align: center;
-      padding: 12mm 15mm 10mm;
-      background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+      padding: 20mm 20mm 15mm;
+      flex: 0 0 auto;
     }
     
     .logo {
-      font-size: 42px;
+      font-size: 52px;
       font-weight: 700;
       letter-spacing: -2px;
-      margin-bottom: 5mm;
+      margin-bottom: 8mm;
     }
     .logo .tedx {
       color: #000000;
@@ -152,21 +144,21 @@ export class PDFGenerator {
     }
     
     .event-name {
-      font-size: 22px;
+      font-size: 28px;
       color: #1a1a1a;
       font-weight: 600;
-      margin-bottom: 4mm;
-      padding-bottom: 4mm;
-      border-bottom: 2px solid #e62b1e;
+      margin-bottom: 6mm;
+      padding-bottom: 5mm;
+      border-bottom: 3px solid #e62b1e;
       display: inline-block;
     }
     
     .venue {
-      font-size: 13px;
+      font-size: 16px;
       color: #666666;
       font-weight: 500;
-      line-height: 1.6;
-      margin-top: 4mm;
+      line-height: 1.8;
+      margin-top: 6mm;
     }
     .venue-line {
       display: block;
@@ -174,15 +166,16 @@ export class PDFGenerator {
     
     /* Dashed separator line */
     .separator {
-      margin: 0 15mm;
-      border-top: 2px dashed #e0e0e0;
+      margin: 0 30mm;
+      border-top: 3px dashed #e0e0e0;
     }
     
     /* Main content area */
     .content {
-      padding: 10mm 15mm;
+      flex: 1;
+      padding: 15mm 30mm;
       display: flex;
-      gap: 12mm;
+      gap: 15mm;
       align-items: center;
       justify-content: center;
     }
@@ -194,15 +187,15 @@ export class PDFGenerator {
     
     .qr-wrapper {
       background: #ffffff;
-      padding: 5mm;
-      border-radius: 3mm;
-      box-shadow: 0 4px 20px rgba(230, 43, 30, 0.15);
-      border: 3px solid #e62b1e;
+      padding: 8mm;
+      border-radius: 4mm;
+      box-shadow: 0 6px 30px rgba(230, 43, 30, 0.2);
+      border: 4px solid #e62b1e;
     }
     
     .qr-wrapper img {
-      width: 55mm;
-      height: 55mm;
+      width: 70mm;
+      height: 70mm;
       display: block;
     }
     
@@ -213,9 +206,9 @@ export class PDFGenerator {
     }
     
     .info-item {
-      margin-bottom: 6mm;
-      padding-bottom: 6mm;
-      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 10mm;
+      padding-bottom: 8mm;
+      border-bottom: 2px solid #f0f0f0;
     }
     .info-item:last-child {
       border-bottom: none;
@@ -224,37 +217,37 @@ export class PDFGenerator {
     }
     
     .info-label {
-      font-size: 10px;
+      font-size: 12px;
       color: #999999;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       font-weight: 700;
-      margin-bottom: 2mm;
+      margin-bottom: 3mm;
       display: block;
     }
     
     .info-value {
-      font-size: 16px;
+      font-size: 22px;
       color: #1a1a1a;
       font-weight: 600;
     }
     
     .ticket-code {
       font-family: 'Courier New', monospace;
-      font-size: 18px;
-      letter-spacing: 3px;
+      font-size: 24px;
+      letter-spacing: 4px;
       color: #e62b1e;
       font-weight: 700;
       background: #f8f8f8;
-      padding: 3mm 4mm;
-      border-radius: 2mm;
+      padding: 5mm 7mm;
+      border-radius: 3mm;
       display: inline-block;
-      border: 2px dashed #e62b1e;
+      border: 3px dashed #e62b1e;
     }
     
     /* Bottom strip */
     .bottom-strip {
-      height: 8mm;
+      height: 15mm;
       background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
       display: flex;
       align-items: center;
@@ -262,10 +255,10 @@ export class PDFGenerator {
     }
     
     .bottom-strip-text {
-      font-size: 10px;
+      font-size: 13px;
       color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       font-weight: 600;
     }
     
@@ -278,10 +271,13 @@ export class PDFGenerator {
   <!-- Background decorations -->
   <div class="bg-circle bg-circle-1"></div>
   <div class="bg-circle bg-circle-2"></div>
+  <div class="bg-circle bg-circle-3"></div>
   
   <div class="ticket-card">
     <!-- Top red strip -->
-    <div class="top-strip"></div>
+    <div class="top-strip">
+      <div class="top-strip-text">Event Ticket</div>
+    </div>
     
     <!-- Header -->
     <div class="header">

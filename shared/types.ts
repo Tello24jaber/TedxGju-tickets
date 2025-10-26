@@ -28,6 +28,8 @@ export interface Ticket {
   purchaser_name: string;
   purchaser_email: string;
   seat_tier?: string;
+  student_id?: string;
+  needs_transportation?: string;
   token: string;
   status: TicketStatus;
   issued_at: string;

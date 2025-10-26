@@ -171,6 +171,8 @@ router.post('/requests/:id/approve', requireAuth, async (req, res) => {
           purchaser_name: request.name,
           purchaser_email: request.email,
           seat_tier: request.seat_tier,
+          student_id: request.student_id,
+          needs_transportation: request.needs_transportation,
           token,
           status: 'valid',
           purchase_request_id: request.id

@@ -31,6 +31,8 @@ CREATE TABLE tickets (
   purchaser_name TEXT NOT NULL,
   purchaser_email TEXT NOT NULL,
   seat_tier TEXT,
+  student_id TEXT,
+  needs_transportation TEXT,
   token TEXT UNIQUE NOT NULL,
   status TEXT NOT NULL CHECK (status IN ('valid', 'redeemed', 'cancelled', 'expired')),
   issued_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

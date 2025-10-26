@@ -13,6 +13,8 @@ export interface PurchaseRequest {
   seat_tier?: string;
   proof_url?: string;
   payment_type?: string;
+  student_id?: string;
+  needs_transportation?: string;
   status: PurchaseRequestStatus;
   reviewer_id?: string;
   notes?: string;

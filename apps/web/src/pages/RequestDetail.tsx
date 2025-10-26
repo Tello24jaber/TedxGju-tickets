@@ -149,6 +149,24 @@ export default function RequestDetail() {
               )}
             </div>
 
+            {request.student_id && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                  Student ID (GJU)
+                </label>
+                <p style={{ fontSize: '14px' }}>{request.student_id}</p>
+              </div>
+            )}
+
+            {request.needs_transportation && (
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>
+                  Transportation
+                </label>
+                <p style={{ fontSize: '14px' }}>{request.needs_transportation}</p>
+              </div>
+            )}
+
             {request.proof_url && request.payment_type?.toLowerCase() !== 'cash' && (
               <div>
                 <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', fontSize: '14px' }}>

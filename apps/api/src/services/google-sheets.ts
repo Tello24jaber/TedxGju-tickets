@@ -71,6 +71,8 @@ export class GoogleSheetsService {
         const seatTier = getCell('seat') || getCell('tier');
         const paymentType = getCell('payment type') || getCell('payment');
         const proofUrl = getCell('proof') || getCell('url');
+        const studentId = getCell('student id') || getCell('student');
+        const needsTransportation = getCell('transportation') || getCell('transport');
         const notes = getCell('notes');
 
         if (!email || !fullName) continue; // Skip invalid rows
@@ -86,6 +88,8 @@ export class GoogleSheetsService {
           seatTier,
           paymentType,
           proofUrl,
+          studentId,
+          needsTransportation,
           notes
         });
       }

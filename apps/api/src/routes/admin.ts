@@ -59,6 +59,8 @@ router.post('/sync-google', requireAuth, async (req, res) => {
       seat_tier: row.seatTier,
       payment_type: row.paymentType,
       proof_url: row.proofUrl,
+      student_id: row.studentId,
+      needs_transportation: row.needsTransportation,
       notes: row.notes,
       status: 'pending_review'
     }));
